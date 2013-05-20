@@ -1,0 +1,7 @@
+{
+    "name": "Twitter Emotions",
+    "short_name": "emotions",
+    "thumbnail": "http://farm1.staticflickr.com/103/315127886_2335388976_q.jpg",
+    "description": "Analyzing emotions in Tweets",
+    "question": "Classify from 0 to 5 the happiness of this tweet"
+}

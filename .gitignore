@@ -1,0 +1,9 @@
+*.egg-info
+env/
+*.un~
+.*.swp
+*.pyc
+*.db
+*.swo
+*.swn
+config.py
