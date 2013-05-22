@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <div class="row">
     <!-- Success and Error Messages for the user --> 
     <div class="span6 offset2" style="height:50px">
@@ -34,16 +35,74 @@
 -->
 <div class="row-fluid skeleton"> <!-- Start Skeleton Row-->
     <div class="span12"><!-- Start of Question and Submission DIV (column) -->
-        <h1 id="question">Indique de 0 a 5 el grado de alegría del siguiente tweet</h1> <!-- The question will be loaded here -->
+        <h1 id="question">Valore el estado del autor al escribir el siguiente tweet</h1> <!-- The question will be loaded here -->
         <div class="well well-small">
             <p id="tweet"></p> <!-- Start DIV for the submission buttons -->
         </div>
-        <div id="answer"> <!-- Start DIV for the submission buttons -->
-            <div class="input-append">
-                <input id="alegria" maxlength="1" size="1" type="text">
-                <button class="btn btn-success btn-answer" type="button"><i class="icon-ok"></i> Guardar valor</button>
-            </div>
+        <div id="answer" class="row-fluid"> <!-- Start DIV for the submission buttons -->
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Calma:&nbsp;&nbsp;</b>
+  						<span id="fcalm" class="myf"></span>
+						</div>
+						<div class="span9">
+							<div id="calm" class="mySlider">
+							</div>
+						</div>
+				</div>
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Miedo:&nbsp;&nbsp;</b>
+  						<span id="falert" class="myf"></span>
+						</div>
+						<div class="span9">
+							<div id="alert" class="mySlider">
+							</div>
+						</div>
+				</div>
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Seguridad:&nbsp;&nbsp;</b>
+  						<span id="fsure" class="myf"></span>
+						</div>
+						<div class="span9">
+							 <div id="sure" class="mySlider">
+							</div>
+						</div>
+				</div>
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Vitalidad:&nbsp;&nbsp;</b>
+  						<span id="fvital" class="myf"></span>
+						</div>
+						<div class="span9">
+							<div id="vital" class="mySlider">
+							</div>
+						</div>
+				</div>
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Amabilidad:&nbsp;&nbsp;</b>
+  						<span id="fkind" class="myf"></span>
+						</div>
+						<div class="span9">
+							<div id="kind" class="mySlider">
+							</div>
+						</div>
+				</div>
+				<div class="row-fluid">
+						<div class="span3">
+  						<b style="">Felicidad:&nbsp;&nbsp;</b>
+  						<span id="fhappy" class="myf"></span>
+						</div>
+						<div class="span9">
+							<div id="happy" class="mySlider">
+							</div>
+						</div>
+				</div>
+
             <!-- If the user clicks this button, the saved answer will be value="yes"-->
+<button class="btn btn-success btn-answer" type="button"><i class="icon-ok"></i> Guardar valor</button>
         </div><!-- End of DIV for the submission buttons -->
         <!-- Feedback items for the user -->
         <hr>
@@ -89,7 +148,75 @@
 </script>
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script>
+function reset_sliders(){
+	$('.mySlider').slider('value',0);
+	$( ".myf" ).html("0");
+}
+$(function() {
+    $( "#calm" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#fcalm" ).html( ui.value );
+      }
+    });
+    $( "#fcalm" ).html( $( "#calm" ).slider( "value" ) );
+   $( "#alert" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#falert" ).html( ui.value );
+      }
+    });
+    $( "#falert" ).html( $( "#alert" ).slider( "value" ) );
+   	$( "#sure" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#fsure" ).html( ui.value );
+      }
+    });
+    $( "#fsure" ).html( $( "#sure" ).slider( "value" ) );
+ 		$( "#vital" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#fvital" ).html( ui.value );
+      }
+    });
+    $( "#fvital" ).html( $( "#vital" ).slider( "value" ) );
+ 		$( "#kind" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#fkind" ).html( ui.value );
+      }
+    });
+    $( "#fkind" ).html( $( "#kind" ).slider( "value" ) );
+ 		$( "#happy" ).slider({
+      range: "max",
+      min: -5,
+      max: 5,
+      value: 0,
+      slide: function( event, ui ) {
+        $( "#fhappy" ).html( ui.value );
+      }
+    });
+    $( "#fhappy" ).html( $( "#happy" ).slider( "value" ) );
+  });
 function loadUserProgress() {
     pybossa.userProgress('emotions').done(function(data){
         var pct = Math.round((data.done*100)/data.total);
@@ -109,10 +236,11 @@ pybossa.taskLoaded(function(task, deferred) {
         console.log(task.info);
         p.text = task.info.tweet.text;
         task.info.p = p;
-        task.answer = {'happiness': 0,
-                       'tweet': task.info.tweet.text,
+        task.answer = { 'tweet': task.info.tweet.text,
                        'task_id': task.id};
+				reset_sliders();
         deferred.resolve(task);
+			
     }
     else {
         deferred.resolve(task);
@@ -120,41 +248,39 @@ pybossa.taskLoaded(function(task, deferred) {
 });
 
 pybossa.presentTask(function(task, deferred) {
-    if ( !$.isEmptyObject(task) ) {
-        loadUserProgress();
-        $("#alegria").val("");
-        $('#tweet').text(task.info.tweet.text);
-        $('#task-id').html(task.id);
-        $('.btn-answer').off('click').on('click', function(evt) {
-            var answer = $(evt.target).attr("value");
-            if (typeof answer != 'undefined') {
-                task.answer.happiness = parseInt($("#alegria").val());
-                if ((task.answer.happiness >= 0) && (task.answer.happiness <=5)) {
-                    pybossa.saveTask(task.id, task.answer).done(function() {
-                        deferred.resolve();
-                    });
-                    $("#loading").fadeIn(500);
-                    if ($("#disqus_thread").is(":visible")) {
-                        $('#disqus_thread').toggle();
-                        $('.btn-disqus').toggle();
-                    }
-                }
-                else {
-                    alert("Sorry, the value should be between 0 and 5");
-                    return;
-                }
-            }
-            else {
-                $("#error").show();
-            }
-        });
-        $("#loading").hide();
-    }
-    else {
-        $(".skeleton").hide();
-        $("#loading").hide();
-        $("#finish").fadeIn(500);
-    }
+		if ( !$.isEmptyObject(task) ) {
+		loadUserProgress();
+		$('#task-id').html(task.id);
+		$('#tweet').text(task.info.tweet.text);
+		$('.btn-answer').off('click').on('click', function(evt) {
+			var answer = $(evt.target).attr("value");
+			if (typeof answer != 'undefined') {
+			task.answer.calm = parseInt($("#calm").slider("value"));
+			task.answer.alert = parseInt($("#alert").slider("value"));
+			task.answer.sure = parseInt($("#sure").slider("value"));
+			task.answer.vital = parseInt($("#vital").slider("value"));
+			task.answer.kind = parseInt($("#kind").slider("value"));
+			task.answer.happy = parseInt($("#happy").slider("value"));
+			pybossa.saveTask(task.id, task.answer).done(function() {
+				deferred.resolve();
+				});
+			$("#loading").fadeIn(500);
+			if ($("#disqus_thread").is(":visible")) {
+			$('#disqus_thread').toggle();
+			$('.btn-disqus').toggle();
+			}
+			}
+			else {
+			$("#error").show();
+			}
+		});
+		$("#loading").hide();
+		}
+		else {
+			$(".skeleton").hide();
+			$("#loading").hide();
+			$("#finish").fadeIn(500);
+		}
 });
 
 pybossa.run('emotions');
